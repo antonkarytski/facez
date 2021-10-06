@@ -1,0 +1,32 @@
+.Container{
+  width: 100%;
+  background-color: lightsteelblue;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+}
+
+.ResizeComponent{
+  display: flex;
+  flex: 1;
+  height: 100vh!important;
+}
+
+.Element{
+  cursor: pointer;
+}
+
+.SaveButton{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: lightsteelblue;
+  border-color: #333;
+  color: #333;
+  z-index: 20;
+  &:hover{
+    background-color: rgba(255,255,255,0.5) !important;
+  }
+}

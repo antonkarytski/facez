@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+
+
+body{
+  padding: 0;
+  margin: 0;
+  font-family: Rubik, sans-serif;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+.App{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
