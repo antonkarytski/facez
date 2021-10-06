@@ -13,11 +13,11 @@ function App() {
   return (
     <div className={classes.App}>
       <Switch location={location}>
-        <Route path={"/"} exact>
-          <MainPage />
-        </Route>
         <Route path={"/admin"}>
           <AdminPage />
+        </Route>
+        <Route path={"/"} exact>
+          <MainPage />
         </Route>
       </Switch>
     </div>
