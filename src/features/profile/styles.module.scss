@@ -1,0 +1,12 @@
+.LoginButton{
+  position: absolute;
+  border: none;
+  top: 10px;
+  right: 50px;
+  z-index: 20;
+  transition: color .3s;
+  &:hover{
+    background-color: transparent;
+    color: steelblue;
+  }
+}

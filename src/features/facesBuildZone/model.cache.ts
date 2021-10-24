@@ -3,6 +3,8 @@ import { request } from "../../api/request";
 import { IFace, IFaceCached } from "../../interfaces/types.face";
 import { toCachedFace } from "../faces/helpers";
 import { links } from "../../api/links";
+import { SendCacheResponse } from "./types";
+import { updateFace } from "../faces/model.faces";
 
 export type IFaceCachedList = {
   [key: string]: Partial<IFaceCached>;
@@ -17,7 +19,7 @@ export const addFaceDeleteToCache = createEvent<{
   uniqKey: string;
   _id?: string;
 }>();
-export const resetCache = createEffect();
+export const resetCache = createEvent();
 export const $facesCache = createStore<IFaceCachedList>({})
   .on(addNewFaceToCache, (state, payload) => {
     return { ...state, [payload.uniqKey]: toCachedFace(payload) };
@@ -66,12 +68,21 @@ export const sendCache = attach({
   effect: createEffect(({ cache }: { cache: IFaceCachedList }) => {
     const body = Object.entries(cache).map(([_, data]) => data);
     if (!body.length) return;
-    return request({
+    return request<SendCacheResponse>({
       url: links.assets,
       body,
       method: "PUT",
     });
   }),
+});
+
+sendCache.done.watch(({ result }) => {
+  if (result) {
+    result.inserted.forEach(({ uniqKey, _id }) => {
+      updateFace({ uniqKey, _id });
+    });
+  }
+  resetCache();
 });
 
 sendCache.fail.watch((e) => {

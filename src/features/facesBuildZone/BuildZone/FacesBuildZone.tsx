@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import SvgBuilder from "../../svgBuilder/SvgBuilder";
 import Draggable, { DraggableData } from "react-draggable";
 import classes from "./style.module.scss";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { addFaceUpdateToCache, sendCache } from "../model.cache";
+import {
+  addFaceDeleteToCache,
+  addFaceUpdateToCache,
+  sendCache,
+} from "../model.cache";
 import { IFaceLocation } from "../../../interfaces/types.face";
 import { useStore } from "effector-react";
-import { $faces } from "../../faces/model.faces";
-import Button from "../../../ui/buttons/Button";
+import { $faces, removeFace } from "../../faces/model.faces";
+import { EditableFace } from "../../faces/EditableFace";
+import RequestButton from "../../../ui/buttons/RequestButton";
 
 export default function FacesBuildZone() {
   const faces = useStore($faces);
@@ -19,6 +23,7 @@ export default function FacesBuildZone() {
     { x, y }: DraggableData
   ) {
     setIsScaleBlocked(false);
+    console.log(_id, uniqKey);
     addFaceUpdateToCache({
       uniqKey,
       _id,
@@ -28,7 +33,7 @@ export default function FacesBuildZone() {
 
   return (
     <div className={classes.Container}>
-      <Button
+      <RequestButton
         onClick={sendCache}
         label={"Save"}
         className={classes.SaveButton}
@@ -50,9 +55,17 @@ export default function FacesBuildZone() {
                 key={uniqKey}
                 defaultPosition={offset}
                 scale={currentScale}
+                defaultClassName={classes.Draggable}
               >
                 <div>
-                  <SvgBuilder node={node} className={classes.Element} />
+                  <EditableFace
+                    node={node}
+                    svgClass={classes.Element}
+                    onDelete={() => {
+                      removeFace(uniqKey);
+                      addFaceDeleteToCache({ uniqKey, _id });
+                    }}
+                  />
                 </div>
               </Draggable>
             );

@@ -9,6 +9,37 @@
   transition: background-color .3s;
   &:hover{
     background-color: #a7a7a7;
+  }
+}
 
+
+.RemoveButton{
+  border-radius: 50%;
+  position: absolute;
+  height: 45px;
+  width: 45px;
+  background-color: #ec1c1c;
+  margin-left: 10%;
+  margin-top: 10%;
+}
+
+.IconButton{
+  display: flex;
+  border: none;
+  height: auto;
+  justify-content: flex-start;
+  align-items: center;
+
+  &:hover{
+    background-color: transparent;
+
+    >span{
+      box-shadow: 0 3px 0 0 #333;
+    }
+  }
+
+  >span{
+    transition: box-shadow .3s;
+    margin-left: 10px;
   }
 }

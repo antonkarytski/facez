@@ -23,7 +23,6 @@ export const request = async <Response = any>({
   if (body) {
     data.body = JSON.stringify(body);
   }
-  console.log(url);
   const response = await fetch(url, data);
   if (response.ok) return (await response.json()) as Promise<Response>;
   throw response;
